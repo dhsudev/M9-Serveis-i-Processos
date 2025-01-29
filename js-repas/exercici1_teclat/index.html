@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ejercicio 1 - Teclado numérico</title>
+	<style>
+		.myButton{
+			margin: 5px;
+			font-size: 70px;
+			color: white;
+		}
+		.numberButton{
+			background-color: rgb(72, 83, 234);
+			height: 100px;
+			width: 100px;
+		}
+		.pageButton{
+			color :rgb(35, 15, 68);
+			background-color: rgb(185, 142, 196);
+			height: 50px;
+			width: 50px;
+			font-size: 20px;
+		}
+		.keyboard{
+			height: 400px;
+			flex-direction: row;
+    		align-content: center;
+    		align-items: flex-start;
+    		justify-content: center;
+			display: flex;
+			flex-wrap: wrap;
+		}
+		.info{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+	</style>
+	<script src="changeKeyboard.js" defer></script>
+	<script id="loadKeyboard" src="keyboard1.js" defer></script>
+
+</head>
+<body>
+	<div id="infoContainer">
+		<h1 id="title">Ejercicio 1 - Teclado numérico</h1>
+		<div style="display: ruby;">
+			<p>Last Button Clicked: </p>
+			<p id="lastButtonClickedText"></p>	
+		</div>
+	</div>
+	<div id="keyboardContainer" class='keyboard'>
+	</div>
+	<div id="changeKeyboardContainer" style="display: flex;">
+	</div>
+</body>
+</html>
