@@ -1,16 +1,19 @@
 {
+  "type": "module", 
   "name": "api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js", 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon server.js"
   },
   "author": "Lua Trevín (dhsudev)",
   "license": "ISC",
   "description": "This is my first API",
   "dependencies": {
-    "express": "^4.21.2"
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"

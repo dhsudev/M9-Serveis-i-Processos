@@ -1,11 +1,13 @@
-const express = require('express');
+import routes from '/home/lua.trevin.7e8/Escriptori/M9-Serveis-i-Processos/projecte/api/routes/router.js'
+
 const PORT = 3000
 const app = express ();
 
 
 app.use(express.json());
+app.use('./', routes);
 
-
+// Test endpoint to make sure the server is running
 app.get("/status", (request, response) => {
     const status = {
         "Status" : "Running",
@@ -13,12 +15,6 @@ app.get("/status", (request, response) => {
     };
     response.send(status);
 })
-
-app.get("/test", (request, response) => {
-    console.log(request.body)
-    response.send({"hola": "hola"})
-})
-
 
 app.listen(PORT, () => {
     console.log("Server Listening on PORT:", PORT);
