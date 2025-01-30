@@ -1,22 +1,25 @@
-import routes from '/home/lua.trevin.7e8/Escriptori/M9-Serveis-i-Processos/projecte/api/routes/router.js'
+import express from 'express';
+import routes from './routes/router.js';
 
-const PORT = 3000
+const PORT = 3010
 const app = express ();
 
 
 app.use(express.json());
-app.use('./', routes);
+app.use('/api', routes);
 
-// Test endpoint to make sure the server is running
+// Endpoint to make sure the server is running
 app.get("/status", (request, response) => {
+    //console.log(request)
     const status = {
         "Status" : "Running",
         "Avalible EndPoints" : ["/status", "/resources"] 
     };
-    response.send(status);
+    response.status(200).json(status);
 })
 
 app.listen(PORT, () => {
     console.log("Server Listening on PORT:", PORT);
-  });
+    }
+);
 

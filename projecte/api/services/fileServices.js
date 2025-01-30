@@ -1,5 +1,4 @@
 import fs from "fs";
-import bodyParser from "body-parser";
 
 const writeData = (data, file) => {
     try {
@@ -9,8 +8,10 @@ const writeData = (data, file) => {
     }
 };
 
+
 const readData = (file) => {
     try {
+        console.log(file)
         const data = fs.readFileSync(file);
         return JSON.parse(data);
     } catch (error) {
@@ -19,4 +20,5 @@ const readData = (file) => {
 };
 
 
-export {readData, writeData}
+
+export { readData, writeData };

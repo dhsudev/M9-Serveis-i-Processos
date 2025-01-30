@@ -1,8 +1,8 @@
 import express from 'express'
-import userRoutes from './users'
-import booksRoutes from './books'
-import notificationsRoutes from './notifications'
-import resourcesRoutes from './users'
+import userRoutes from './users.js'
+import booksRoutes from './books.js'
+import notificationsRoutes from './notifications.js'
+import resourcesRoutes from './resources.js'
 
 const router = express.Router();
 

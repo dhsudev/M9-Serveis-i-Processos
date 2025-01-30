@@ -1,0 +1,49 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "api",
+    "collectionId": "993e1561-4307-4d0f-a589-a404c69278ad",
+    "dateExported": "2025-01-30T12:10:26.075Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "3b59545d-54c0-4129-a99c-123af077294f",
+            "colId": "993e1561-4307-4d0f-a589-a404c69278ad",
+            "containerId": "",
+            "name": "Status",
+            "url": "http://localhost:3010/status",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2025-01-30T12:08:02.610Z",
+            "modified": "2025-01-30T12:08:34.113Z",
+            "headers": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "98803640-7ebb-4684-8ee3-2d9e54bf8f65",
+            "colId": "993e1561-4307-4d0f-a589-a404c69278ad",
+            "containerId": "",
+            "name": "Books",
+            "url": "localhost:3010/api/localhost:3010/api/resources/test",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2025-01-30T12:09:05.129Z",
+            "modified": "2025-01-30T12:09:05.130Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ]
+        }
+    ],
+    "ref": "eFz0KCaxCr64QYcSVhbxQbaUvOoBo0BWknDj_lXBeB0nz0ACrkJALQDU8dgptCeZ6BGr-REkyrA67y5-GDtmew"
+}

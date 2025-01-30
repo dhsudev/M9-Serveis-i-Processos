@@ -1,12 +1,6 @@
 ### Check if the srv is running
-GET http://localhost:3000/status HTTP/1.1
+GET http://localhost:3010/status HTTP/1.1
 
-### Test
+###
 
-GET http://localhost:3000/test HTTP/1.1
-content-type: application/json
-
-{
-    "adioooos" : "adeu",
-    "hoooooolaaaaa" : "miau"
-}
+GET http://localhost:3010/api/localhost:3010/api/books/ HTTP/1.1
