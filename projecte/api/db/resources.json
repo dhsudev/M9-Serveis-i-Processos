@@ -1,1 +1,41 @@
-[]
+[
+    {
+        "bc2daebc-6185-453b-9ce4-8566076e6f5d": {
+            "name": "sala1",
+            "status": "ocupat",
+            "properties": [],
+            "date": "2025-02-06T08:30:31.997Z"
+        }
+    },
+    {
+        "a10771f3-7e98-4c96-8c8a-f25c31c2a278": {
+            "name": "cotxe",
+            "status": "ocupat",
+            "properties": [
+                "2 persones"
+            ],
+            "date": "2025-02-06T08:31:03.330Z"
+        }
+    },
+    {
+        "20b15efd-044b-487f-870b-640d324e3292": {
+            "name": "cotxe",
+            "status": "ocupat",
+            "properties": [
+                "2 persones"
+            ],
+            "date": "2025-02-06T08:32:45.727Z"
+        }
+    },
+    {
+        "accb1902-bf05-430a-82e6-25f0ce77ad8a": {
+            "name": "cotxe",
+            "status": "ocupat",
+            "properties": [
+                "2 persones",
+                "hola"
+            ],
+            "date": "2025-02-06T08:33:15.653Z"
+        }
+    }
+]

@@ -1,24 +1,38 @@
 import fs from "fs";
+import logServices from "./logServices.js";
 
-const writeData = (data, file) => {
+const writeData = (file, data) => {
     try {
+        logServices.info(`Trying add in ${file} this object: `);
+        console.log(data);
         fs.writeFileSync(file, JSON.stringify(data));
+        logServices.success(`Data added successfully in ${file}`);
     } catch (error) {
-        console.error(error);
+        logServices.error(error);
     }
 };
 
+const appendData = (file, data) => {
+    try {
+        logServices.info(`Trying add in ${file} this object: `);
+        console.log(data);
+        fs.writeFileSync(file, JSON.stringify(data), { flag: 'a+' });
+        logServices.success(`Data added successfully in ${file}`);
+    } catch (error) {
+        logServices.error(error);
+    }
+};
 
 const readData = (file) => {
     try {
-        console.log(file)
+        logServices.info(`Reading data from ${file}`);
         const data = fs.readFileSync(file);
         return JSON.parse(data);
     } catch (error) {
-        console.error(error);
+        logServices.error(error);
     }
 };
 
 
 
-export { readData, writeData };
+export { readData, writeData, appendData };

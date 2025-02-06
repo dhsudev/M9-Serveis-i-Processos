@@ -10,7 +10,6 @@ app.use('/api', routes);
 
 // Endpoint to make sure the server is running
 app.get("/status", (request, response) => {
-    //console.log(request)
     const status = {
         "Status" : "Running",
         "Avalible EndPoints" : ["/status", "/resources"] 
