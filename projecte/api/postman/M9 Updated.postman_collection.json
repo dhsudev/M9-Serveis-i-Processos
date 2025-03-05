@@ -1,0 +1,645 @@
+{
+	"info": {
+		"_postman_id": "19f2462e-ba2e-4b2a-a7db-9ddf6d3181bc",
+		"name": "M9 Updated",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41814672"
+	},
+	"item": [
+		{
+			"name": "Resources - GET",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 200ms\", function () { pm.expect(pm.response.responseTime).to.be.below(200); });",
+							"pm.test(\"Response has expected properties\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"message\");",
+							"});",
+							"",
+							"var template = `",
+							"`;",
+							"",
+							"function constructVisualizerPayload() {",
+							"    const resources = pm.response.json().resources;",
+							"    const payload = { response: {} };",
+							"",
+							"    resources.forEach(resource => {",
+							"        const resourceId = Object.keys(resource)[0];",
+							"        payload.response[resourceId] = resource[resourceId];",
+							"    });",
+							"",
+							"    return payload;",
+							"}",
+							"",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "localhost:3010/api/resources",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"api",
+						"resources"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Resources - POST",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is 201 (created)\", function () { pm.response.to.have.status(201); });",
+							"",
+							"pm.test(\"Response contains message and created entity\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"message\");",
+							"    pm.expect(jsonData).to.have.property(\"resource\");",
+							"});",
+							"",
+							"pm.test(\"Save and set resource ID variable collection\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    let resourceId = Object.keys(jsonData.resource)[0];",
+							"    pm.collectionVariables.set(\"resourceId\", resourceId);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"salaaaaa3\", \"status\" : \"disp\", \"properties\" : []}"
+				},
+				"url": {
+					"raw": "localhost:3010/api/resources",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"api",
+						"resources"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Resources - GET by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+							"pm.test(\"Response time is less than 200ms\", function () { pm.expect(pm.response.responseTime).to.be.below(200); });",
+							"pm.test(\"Response has expected properties\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"message\");",
+							"    pm.expect(jsonData).to.have.property(\"resource\");",
+							"});",
+							"var template = `",
+							"<style type=\"text/css\">",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+							"    .tftable tr {background-color:#ffffff;}",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+							"    .tftable tr:hover {background-color:#e0ffff;}",
+							"</style>",
+							"",
+							"<table class=\"tftable\" border=\"1\">",
+							"    <tr>",
+							"        <th>ID</th>",
+							"        <th>Name</th>",
+							"        <th>Status</th>",
+							"        <th>Properties</th>",
+							"        <th>Date</th>",
+							"    </tr>",
+							"    ",
+							"    {{#each response.resources}}",
+							"        <tr id=row_{{@key}}>",
+							"            <td>{{@key}}</td>",
+							"            <td>{{this.name}}</td>",
+							"            <td>{{this.status}}</td>",
+							"            <td>{{this.properties}}</td>",
+							"            <td>{{this.date}}</td>",
+							"        </tr>",
+							"    {{/each}}",
+							"</table>",
+							"`;",
+							"",
+							"function constructVisualizerPayload() {",
+							"    return { response: pm.response.json() }",
+							"}",
+							"",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "localhost:3010/api/resources/{{resourceId}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"api",
+						"resources",
+						"{{resourceId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Resources - PUT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is 200 (updated)\", function () { pm.response.to.have.status(200); });",
+							"pm.test(\"Response confirms update\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"message\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							" "
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"Updated Name\", \"email\": \"updated@example.com\", \"password\" : \"hola2122121\" }"
+				},
+				"url": {
+					"raw": "localhost:3010/api/resources/{{resourceId}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"api",
+						"resources",
+						"{{resourceId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Resources - DELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is 200 (deleted)\", function () { pm.response.to.have.status(200); });",
+							"pm.test(\"Response confirms deletion\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"message\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "localhost:3010/api/resources/{{resourceId}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"api",
+						"resources",
+						"{{resourceId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users - GET",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+							"pm.test(\"Response has expected properties\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"message\");",
+							"    pm.expect(jsonData).to.have.property(\"users\");",
+							"});",
+							"",
+							"",
+							"var template = `<style type=\"text/css\">",
+							"      .tftable {",
+							"        font-family: 'Arial', sans-serif;",
+							"        font-size: 14px;",
+							"        color: #000000;",
+							"        width: 100%;",
+							"        border-collapse: collapse;",
+							"        margin: 20px 0;",
+							"      }",
+							"      .tftable th {",
+							"        background-color: #512c6c; ",
+							"        border: 1px solid #23003c;",
+							"        padding: 10px 15px;",
+							"        text-align: left;",
+							"        color: #ffffff;",
+							"      }",
+							"      .tftable td {",
+							"        border: 1px solid #4b0082;",
+							"        padding: 10px 15px;",
+							"      }",
+							"      .tftable tr {",
+							"        background-color:#ffffff;",
+							"    }",
+							"      .tftable tr:hover {",
+							"        color: rgb(117, 68, 117)",
+							"      }",
+							"    </style>",
+							"<table class=\"tftable\" border=\"1\">",
+							"    <tr>",
+							"        <th>Name</th>",
+							"        <th>Email</th>",
+							"        <th>Role</th>",
+							"    </tr>",
+							"    ",
+							"{{#each response.users}}",
+							"    <tr>",
+							"        <td>{{this.name}}</td>",
+							"        <td>{{this.email}}</td>",
+							"        <td>{{this.role}}</td>",
+							"    </tr>",
+							"{{/each}}",
+							"</table>",
+							"`;",
+							"",
+							"function constructVisualizerPayload() {",
+							"    var res = pm.response.json();",
+							"    var visualizerData = {",
+							"        users: res.users.map(user => Object.values(user)[0])",
+							"    };",
+							"    return { response: visualizerData };",
+							"}",
+							"",
+							"pm.visualizer.set(template, constructVisualizerPayload());",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "localhost:3010/api/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users - POST",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is 201 (created)\", function () { pm.response.to.have.status(201); });",
+							"",
+							"pm.test(\"Response contains message and created entity\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"message\");",
+							"    pm.expect(jsonData).to.have.property(\"user\");",
+							"});",
+							"",
+							"pm.test(\"Save and set user ID variable collection\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    let userId = Object.keys(jsonData.resource)[0];",
+							"    pm.collectionVariables.set(\"userId\", resourceId);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\" : \"gatitio33\", \"email\":\"gatito@miau.cat\" ,\"password\" : \"dsjk3fhadsjk\"}"
+				},
+				"url": {
+					"raw": "localhost:3010/api/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users - GET by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+							"pm.test(\"Response time is less than 200ms\", function () { pm.expect(pm.response.responseTime).to.be.below(200); });",
+							"pm.test(\"Response has expected properties\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"message\");",
+							"    pm.expect(jsonData).to.have.property(\"users\");",
+							"});",
+							"",
+							"",
+							"var template = `<style type=\"text/css\">",
+							"      .tftable {",
+							"        font-family: 'Arial', sans-serif;",
+							"        font-size: 14px;",
+							"        color: #000000;",
+							"        width: 100%;",
+							"        border-collapse: collapse;",
+							"        margin: 20px 0;",
+							"      }",
+							"      .tftable th {",
+							"        background-color: #512c6c; ",
+							"        border: 1px solid #23003c;",
+							"        padding: 10px 15px;",
+							"        text-align: left;",
+							"        color: #ffffff;",
+							"      }",
+							"      .tftable td {",
+							"        border: 1px solid #4b0082;",
+							"        padding: 10px 15px;",
+							"      }",
+							"      .tftable tr {",
+							"        background-color:#ffffff;",
+							"    }",
+							"      .tftable tr:hover {",
+							"        color: rgb(117, 68, 117)",
+							"      }",
+							"    </style>",
+							"<table class=\"tftable\" border=\"1\">",
+							"    <tr>",
+							"        <th>Name</th>",
+							"        <th>Email</th>",
+							"        <th>Role</th>",
+							"    </tr>",
+							"    ",
+							"{{#each response.users}}",
+							"    <tr>",
+							"        <td>{{this.name}}</td>",
+							"        <td>{{this.email}}</td>",
+							"        <td>{{this.role}}</td>",
+							"    </tr>",
+							"{{/each}}",
+							"</table>",
+							"`;",
+							"",
+							"function constructVisualizerPayload() {",
+							"    var res = pm.response.json();",
+							"    var visualizerData = {",
+							"        users: res.users.map(user => Object.values(user)[0])",
+							"    };",
+							"    return { response: visualizerData };",
+							"}",
+							"",
+							"pm.visualizer.set(template, constructVisualizerPayload());",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "localhost:3010/api/users/",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"api",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Resources - PUT Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is 200 (updated)\", function () { pm.response.to.have.status(200); });",
+							"pm.test(\"Response confirms update\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"message\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							" "
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"Updated Name\", \"email\": \"updated@example.com\", \"password\" : \"hola2122121\" }"
+				},
+				"url": {
+					"raw": "localhost:3010/api/resources/{{resourceId}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"api",
+						"resources",
+						"{{resourceId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Resources - DELETE Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is 200 (deleted)\", function () { pm.response.to.have.status(200); });",
+							"pm.test(\"Response confirms deletion\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"message\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "localhost:3010/api/resources/{{resourceId}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"api",
+						"resources",
+						"{{resourceId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "resourceId",
+			"value": ""
+		}
+	]
+}

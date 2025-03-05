@@ -1,10 +1,18 @@
 
 import express from 'express';
-import { getBooks, addBook } from '../controllers/booksController.js';
+import { getBooks, addBook, getBookById, updateBook, deleteBook } from '../controllers/booksController.js';
 
 const router = express.Router();
 
-router.get('/', getBooks);   // GET /api/books
-router.post('/', addBook);   // POST /api/books
+router.get('/', (req, res) => {
+    if (req.query.id) {
+        getBookById(req, res);
+    } else {
+        getBooks(req, res);
+    }
+});
+router.post('/', addBook);  
+router.put('/:id', updateBook); 
+router.delete('/:id', deleteBook);  
 
 export default router;

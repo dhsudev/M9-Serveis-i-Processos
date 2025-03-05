@@ -4,7 +4,6 @@ import logServices from "./logServices.js";
 const writeData = (file, data) => {
     try {
         logServices.info(`Trying add in ${file} this object: `);
-        console.log(data);
         fs.writeFileSync(file, JSON.stringify(data));
         logServices.success(`Data added successfully in ${file}`);
     } catch (error) {

@@ -10,8 +10,13 @@ function getNotifications(req, res) {
     });
 }
 
-function searchById(DB, id) {
-    return readData(DB).find((element) => element.id === id);
+function getNotificationById(req, res) {
+    const notifications = readData(BOOKS_BD)
+    const target = notifications.find((element) => element.id === req.params.id);
+    if (!target) {
+        return res.status(404).json({ message: "Notification not found" });
+    }
+    res.status(200).json({ message: "Notification retrieved successfully", notification: target });
 }
 
 function addNotification(req, res) {
@@ -62,5 +67,48 @@ function addNotification(req, res) {
     }
 }
 
+function deleteNotification(req, res) {
+    const { id } = req.params;
+    try {
+        const currentNotifications = readData(NOTIFICATIONS_BD);
+        if (!currentNotifications[id]) {
+            return res.status(404).json({ message: "Notification not found" });
+        }
+        delete currentNotifications[id];
+        writeData(NOTIFICATIONS_BD, currentNotifications);
+        res.status(200).json({ message: "Notification deleted successfully" });
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to delete notification",
+            error: error.message
+        });
+    }
+}
 
-export { getNotifications, addNotification };
+function updateNotification(req, res) {
+    const { id } = req.params;
+    try {
+        const currentNotifications = readData(NOTIFICATIONS_BD);
+        if (!currentNotifications[id]) {
+            return res.status(404).json({ message: "Notification not found" });
+        }
+        const updatedNotification = {
+            ...currentNotifications[id],
+            ...req.body,
+            date: new Date()
+        };
+        currentNotifications[id] = updatedNotification;
+        writeData(NOTIFICATIONS_BD, currentNotifications);
+        res.status(200).json({
+            message: "Notification updated successfully",
+            notification: updatedNotification
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to update notification",
+            error: error.message
+        });
+    }
+}
+
+export { getNotifications, getNotificationById, addNotification, updateNotification, deleteNotification };

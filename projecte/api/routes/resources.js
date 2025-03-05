@@ -1,9 +1,10 @@
 import express from 'express';
-import {getResources, addResource} from '../controllers/resourcesController.js';
+import {getResources, addResource, getResourceById, updateResource, deleteResource} from '../controllers/resourcesController.js';
 
 const router = express.Router();
 
-router.get('/', getResources);   // GET /api/resources
-router.post('/', addResource);   // POST /api/resources
-
+router.get('/:id?', (req, res) => req.params.id ? getResourceById(req, res) : getResources(req, res));
+router.post('/', addResource);  
+router.put('/:id?', updateResource); 
+router.delete('/:id?', deleteResource);
 export default router;

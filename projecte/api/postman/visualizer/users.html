@@ -1,0 +1,42 @@
+<style type="text/css">
+    .tftable {
+      font-family: 'Arial', sans-serif;
+      font-size: 14px;
+      color: #ffffff;
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    .tftable th {
+      background-color: #512c6c; 
+      border: 1px solid #23003c;
+      padding: 10px 15px;
+      text-align: left;
+    }
+    .tftable td {
+      border: 1px solid #4b0082;
+      padding: 10px 15px;
+    }
+    .tftable tr:hover {
+      color: rgb(117, 68, 117)
+    }
+    .tftable tr {
+        background-color:#ffffff;
+    }
+  </style>
+
+<table class="tftable" border="1">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+    </tr>
+    
+{{#each response.users}}
+    <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.email}}</td>
+        <td>{{this.role}}</td>
+    </tr>
+{{/each}}
+</table>
