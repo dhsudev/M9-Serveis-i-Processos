@@ -11,6 +11,7 @@ const writeData = (file, data) => {
     }
 };
 
+// Not useful bc the new data needs to be inside the list
 const appendData = (file, data) => {
     try {
         logServices.info(`Trying add in ${file} this object: `);
