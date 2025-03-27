@@ -1,0 +1,139 @@
+/* styles.css */
+
+/* Define primary color and additional variables */
+:root {
+    --primary-color: purple;
+    --text-color: #ffffff;
+    --secondary-color: #f3e5f5;
+    --accent-color: #6a1b9a;
+    --gradient-bg: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+}
+
+/* General styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: var(--secondary-color);
+    color: var(--text-color);
+}
+
+/* Header styles with animation */
+header {
+    background: var(--gradient-bg);
+    padding: 20px;
+    text-align: center;
+    color: var(--text-color);
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: headerFadeIn 1s ease-out;
+}
+
+@keyframes headerFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Product card container with grid layout */
+.product-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Product card styles with hover effect transitions */
+.product-card {
+    background-color: #fff;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    border-color: var(--accent-color);
+}
+
+/* Product title with gradient text */
+.product-card h2 {
+    background: var(--gradient-bg);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+/* Product description */
+.product-card p {
+    color: #333;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+/* Button styles with hover transition */
+.product-card button {
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 5px;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.product-card button:hover {
+    background-color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+/* Section title styles */
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    text-align: center;
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+/* Footer styles with a fixed position on larger screens */
+footer {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Responsive design adjustments for smaller screens */
+@media (max-width: 600px) {
+    header {
+        font-size: 1.5rem;
+        padding: 15px;
+    }
+
+    .product-card {
+        padding: 10px;
+    }
+
+    .product-card h2 {
+        font-size: 1.3rem;
+    }
+
+    .product-card p,
+    .product-card button {
+        font-size: 0.9rem;
+    }
+}

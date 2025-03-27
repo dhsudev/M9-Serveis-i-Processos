@@ -1,0 +1,46 @@
+{
+    "products": [
+        {
+            "id": "f8c48529-3ad8-49f0-b0fa-6225bff320b3",
+            "nom": "charlie DVD",
+            "preu": 30,
+            "categoria": "cinema"
+        },
+        {
+            "id": "d4a142fa-faf6-4c01-a4c0-9fb1339812c0",
+            "nom": "charlie DVD",
+            "preu": 30,
+            "categoria": "musica"
+        },
+        {
+            "id": "6b556872-664f-4440-bb1b-27506b462488",
+            "nom": "charlie DVD",
+            "preu": 30,
+            "categoria": "cinema"
+        },
+        {
+            "id": "c5d48467-5a9f-4617-ba6a-7d171ba86d83",
+            "nom": "charlie DVD",
+            "preu": 30,
+            "categoria": "cinema"
+        },
+        {
+            "id": "a45737fa-1c11-4dce-ac43-2cc5cced19e6",
+            "nom": "charlie DVD",
+            "preu": 30,
+            "categoria": "cinema"
+        },
+        {
+            "id": "1e30d11c-0c62-4bef-ab37-986e42b2e097",
+            "nom": "charlie DVD",
+            "preu": 30,
+            "categoria": "cinema"
+        },
+        {
+            "id": "c0808227-edf1-46cf-8010-36704ae60dc7",
+            "nom": "miau",
+            "preu": 30,
+            "categoria": "musica"
+        }
+    ]
+}
