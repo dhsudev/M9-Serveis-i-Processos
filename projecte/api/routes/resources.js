@@ -1,10 +1,27 @@
 import express from 'express';
-import {getResources, addResource, getResourceById, updateResource, deleteResource} from '../controllers/resourcesController.js';
+import ResourceController from '../controllers/resourcesController.js';
 
 const router = express.Router();
+const resourceController = new ResourceController();
 
-router.get('/:id?', (req, res) => req.params.id ? getResourceById(req, res) : getResources(req, res));
-router.post('/', addResource);  
-router.put('/:id?', updateResource); 
-router.delete('/:id?', deleteResource);
+router.get('/', (req, res) => {
+  resourceController.getAll(req, res);
+});
+
+router.get('/:id', (req, res) => {
+  resourceController.getOne(req, res);
+});
+
+router.post('/', (req, res) => {
+  resourceController.add(req, res);
+});
+
+router.put('/:id', (req, res) => {
+  resourceController.update(req, res);
+});
+
+router.delete('/:id', (req, res) => {
+  resourceController.delete(req, res);
+});
+
 export default router;

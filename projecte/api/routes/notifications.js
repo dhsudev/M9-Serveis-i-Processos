@@ -1,18 +1,27 @@
-
 import express from 'express';
-import { getNotifications, addNotification, getNotificationById, updateNotification, deleteNotification } from '../controllers/notificationsController.js';
+import NotificationController from '../controllers/notificationsController.js';
 
 const router = express.Router();
+const notificationController = new NotificationController();
 
 router.get('/', (req, res) => {
-    if (req.query.id) {
-        getNotifications(req, res);
-    } else {
-        getNotificationById(req, res);
-    }
+  notificationController.getAll(req, res);
 });
-router.post('/', addNotification);  
-router.put('/:id', updateNotification); 
-router.delete('/:id', deleteNotification);  
+
+router.get('/:id', (req, res) => {
+  notificationController.getOne(req, res);
+});
+
+router.post('/', (req, res) => {
+  notificationController.add(req, res);
+});
+
+router.put('/:id', (req, res) => {
+  notificationController.update(req, res);
+});
+
+router.delete('/:id', (req, res) => {
+  notificationController.delete(req, res);
+});
 
 export default router;
