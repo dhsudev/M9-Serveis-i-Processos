@@ -4,16 +4,16 @@ import { v4 as uuidv4 } from 'uuid';
 
 class GenericController {
 	dbFile = '';
-	entityName = ''; 
+	entityName = '';
 	propstext = 'props';
-	
+
 	constructor(entityName, hasQueryParams = false) {
 		this.dbFile = `db/${entityName}s.json`;
 		this.entityName = entityName;
 		this.hasQueryParams = hasQueryParams;
 	}
 
-	checkId (object, id) {
+	checkId(object, id) {
 		return Object.keys(object)[0] === id
 	}
 
@@ -45,12 +45,11 @@ class GenericController {
 			const item = data.find((userObj) => checkId(userObj, id));
 			console.log("holas")
 			if (!item) {
-				return res.status(404).json({ message: 'User not found' });
+				return res.status(404).json({ message: `${this.entityName} not found` });
 			}
-			console.log("holaaa")
 			res.status(200).json({
-				message: "User retrieved successfully",
-				"hola": item
+				message: `${this.entityName} retrieved successfully`,
+				entityName : item
 			});
 		} catch (error) {
 			res.status(500).json({
@@ -104,27 +103,27 @@ class GenericController {
 			if (index === -1) {
 				return res.status(404).json({ error: 'No encontrado' });
 			}
-			data.splice(index, 1);
-			// Create new object
-			const updatedObj = {
-				[id]: {
-					...req.body,
-					date: new Date()
-				}
-			};
-			// Validate data
-			newItem[id] = this.parseData(newItem[id]);
-			if(!newItem[id]) {
+			// Update each attribute in the existing item with the values from req.body
+			const updatedItem = { ...data[index] };
+			Object.keys(req.body).forEach(key => {
+				updatedItem[id][key] = req.body[key];
+			});
+			updatedItem[id].date = new Date();
+			console.log(updatedItem)
+
+			// Parse the updated data
+			updatedItem[id] = this.parseData(updatedItem[id]);
+			if (!updatedItem[id]) {
 				return res.status(400).json({
 					message: `Invalid ${this.entityName} data. ${this.propstext} are required.`
 				});
 			}
 			// Update the obj with the new data and write it to the file
-			data[index] = updatedObj;
+			data[index] = updatedItem;
 			writeData(this.dbFile, data);
 			res.status(200).json({
-				message: `${this.entityName} with ${id} updated successfully`,
-				[this.entityName]: updatedObj
+				message: `${this.entityName} with id ${id} updated successfully`,
+				[this.entityName]: updatedItem
 			});
 		} catch (error) {
 			res.status(500).json({
@@ -140,15 +139,15 @@ class GenericController {
 
 			const data = await readData(this.dbFile);
 
-			const index = data.findIndex(userObj => checkId(userObj, id));
+			const index = data.findIndex(userObj => this.checkId(userObj, id));
 			if (index === -1) {
 				return res.status(404).json({ message: `Could not found a ${this.entityName} with ${id}` });
 			}
 
 			data.splice(index, 1);
-			writeData(this.dbFile, users);
+			writeData(this.dbFile, data);
 
-			res.status(200).json({ message: `${this.entityName} with id ${id} deleted successfully`});
+			res.status(200).json({ message: `${this.entityName} with id ${id} deleted successfully` });
 		} catch (error) {
 			res.status(500).json({ message: 'Something went wrong', error: error.message });
 		}
@@ -157,17 +156,17 @@ class GenericController {
 	// This method is used to filter the data based on the query parameters
 	// It checks if the class is marked to hanlded query parameters and if not it returns the data as is
 	handleQueryParams(query, data) {
-        if(this.hasQueryParams){
+		if (this.hasQueryParams) {
 			throw new Error('The "handleQueryParams" method is not implemented in the child class. Please implement the method in the child class if you want to use them.');
-		} else{
+		} else {
 			return data;
 		}
-    }
+	}
 
-    // Validates if the data has the required properties. Used before adding it to the database
-    parseData(data) {
-        throw new Error('The "parseData" method is not implemented in the child class. Please implement the method in the child class.');
-    }
+	// Validates if the data has the required properties. Used before adding it to the database
+	parseData(data) {
+		throw new Error('The "parseData" method is not implemented in the child class. Please implement the method in the child class.');
+	}
 }
 
 export default GenericController;
