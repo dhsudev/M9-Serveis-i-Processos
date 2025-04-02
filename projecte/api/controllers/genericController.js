@@ -46,7 +46,6 @@ class GenericController {
 			const data = await readData(this.dbFile);
 
 			const item = data.find((userObj) => this.checkId(userObj, id));
-			console.log("holas")
 			if (!item) {
 				return res.status(404).json({ message: `${this.entityName} not found` });
 			}
@@ -114,7 +113,6 @@ class GenericController {
 				updatedItem[id][key] = req.body[key];
 			});
 			updatedItem[id].date = new Date();
-			console.log(updatedItem)
 
 			// Parse the updated data
 			updatedItem[id] = this.parseData(updatedItem[id]);
@@ -178,7 +176,6 @@ class GenericController {
 		logServices.info(`Checking for db db/${entityType}s.json`);
 		const entityPath = path.resolve(`db/${entityType}s.json`);
 		const entities = JSON.parse(fs.readFileSync(entityPath, "utf-8"));
-		console.log(entities)
 		return entities.some(entity => this.checkId(entity, entityId));
 	}
 }
