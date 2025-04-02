@@ -4,7 +4,7 @@ import logServices from "../services/logServices.js";
 class NotificationController extends GenericController {
   constructor() {
     super("notification");
-    this.propstext = "userId, resourceId and sendDate";
+    this.propstext = "userId and sendDate";
   }
   
   parseData(data) {
@@ -19,6 +19,7 @@ class NotificationController extends GenericController {
     logServices.info(`userId: ${data.userId}`);
     if (!this.entityExists(data.userId, "user")) return null;
 
+    logServices.success(`Data parsed successfully`);
     return data;
   }
 }

@@ -12,7 +12,7 @@ app.use('/api', routes);
 app.get("/status", (request, response) => {
     const status = {
         "Status" : "Running",
-        "Avalible EndPoints" : ["/users", "/resources", "/books", "notifications"] 
+        "Avalible EndPoints" : ["/users", "/resources", "/books", "/notifications"] 
     };
     response.status(200).json(status);
 })
