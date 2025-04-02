@@ -1,6 +1,8 @@
 import { readData, writeData } from "../services/fileServices.js";
 import { v4 as uuidv4 } from 'uuid';
-
+import logServices from "../services/logServices.js";
+import fs from "fs";
+import path from "path";
 
 class GenericController {
 	dbFile = '';
@@ -26,10 +28,11 @@ class GenericController {
 			const filteredData = this.handleQueryParams(query, data);
 
 			res.status(200).json({
-				message: "Users retrieved successfully",
+				message: `${this.entityName}s retrieved successfully`,
 				[`${this.entityName}s`]: filteredData
 			});
 		} catch (error) {
+			console.log(error)
 			res.status(500).json({
 				message: `Something went wrong retrieving the ${this.entityName}s`,
 				error: error
@@ -52,6 +55,7 @@ class GenericController {
 				entityName : item
 			});
 		} catch (error) {
+			console.log(error)
 			res.status(500).json({
 				message: `Something went wrong retrieving the ${this.entityName}`,
 				error: error
@@ -71,7 +75,7 @@ class GenericController {
 			};
 			// Validate data
 			newItem[id] = this.parseData(newItem[id]);
-			if(!newItem[id]) {
+			if(!newItem[id]) { // Invalid data
 				return res.status(400).json({
 					message: `Invalid ${this.entityName} data. ${this.propstext} are required.`
 				});
@@ -87,6 +91,7 @@ class GenericController {
 				[this.entityName]: newItem
 			});
 		} catch (error) {
+			console.log(error)
 			res.status(500).json({
 				message: `Failed to add ${this.entityName}`,
 				error: error.message
@@ -126,6 +131,7 @@ class GenericController {
 				[this.entityName]: updatedItem
 			});
 		} catch (error) {
+			console.log(error)
 			res.status(500).json({
 				message: `Failed to update ${this.entityName}`,
 				error: error.message
@@ -166,6 +172,13 @@ class GenericController {
 	// Validates if the data has the required properties. Used before adding it to the database
 	parseData(data) {
 		throw new Error('The "parseData" method is not implemented in the child class. Please implement the method in the child class.');
+	}
+
+	entityExists(entityId, entityType) {
+		logServices.info(`Checking for db db/${entityType}s.json`);
+		const entityPath = path.resolve(`db/${entityType}s.json`);
+		const entities = JSON.parse(fs.readFileSync(entityPath, "utf-8"));
+		return entities.some(entity => this.checkId(entity, entityId));
 	}
 }
 

@@ -20,26 +20,13 @@ class BookController extends GenericController {
         logServices.info(`Cheching if resource and user exist`);
 
         logServices.info(`reusourceId: ${data.resourceId}`);
-        if (!this.resourceExists(data.resourceId)) return null;
+        if (!this.entityExists(data.resourceId, "resource")) return null;
 
         logServices.info(`userId: ${data.userId}`);
-        if (!this.userExists(data.userId)) return null;
+        if (!this.entityExists(data.userId, "user")) return null;
 
         logServices.success(`Data parsed successfully`);
         return data;
-    }
-
-    resourceExists(resourceId) {
-        const resourcesPath = path.resolve("db/resources.json");
-        const resources = JSON.parse(fs.readFileSync(resourcesPath, "utf-8"));
-        return resources.some(resource => this.checkId(resource, resourceId));
-    }
-
-    userExists(userId) {
-        const usersPath = path.resolve("db/users.json");
-        const users = JSON.parse(fs.readFileSync(usersPath, "utf-8"));
-        return users.some(user => this.checkId(user, userId));
-    
     }
 }
 
