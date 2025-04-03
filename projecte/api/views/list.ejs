@@ -1,0 +1,33 @@
+<html>
+<head>
+    <title>List Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <%- include('./header.ejs') %>
+    <main>
+        <table border="1">
+            <thead>
+                <tr>
+                    <% Object.keys(data[0]).forEach(function(property) { %>
+                        <th><%= property %></th>
+                    <% }) %>
+                </tr>
+            </thead>
+            <tbody>
+                <% Object.entries(data).forEach(function([id, user]) { %>
+                    <tr>
+                        <% Object.values(user).forEach(function(value) { %>
+                            <td><%= value %></td>
+                        <% }) %>
+                        <td><a href="/<%=entityName%>s/<%= id %>">Link</a></td>
+                    </tr>
+                <% }) %>
+                
+            </tbody>
+        </table>
+    </main>
+    </main>
+    <%- include('./footer.ejs') %>
+</body>
+</html>

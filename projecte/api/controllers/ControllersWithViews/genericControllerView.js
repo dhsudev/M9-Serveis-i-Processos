@@ -26,11 +26,7 @@ class GenericControllerView{
 			const data = await readData(this.dbFile);
 
 			const filteredData = this.handleQueryParams(query, data);
-
-			res.status(200).json({
-				message: `${this.entityName}s retrieved successfully`,
-				[`${this.entityName}s`]: filteredData
-			});
+			res.render('list', { entityName : this.entityName, data: filteredData });
 		} catch (error) {
 			console.log(error)
 			res.status(500).json({

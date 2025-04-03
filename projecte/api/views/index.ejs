@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <%- include('./header.ejs') %>
+    <main>
+        <h2>Welcome to the Home Page</h2>
+        <p>This is a simple application to demonstrate routing and views.</p>
+        <p>Use the navigation links above to explore different sections.</p>
+        <h3>Available Routes:</h3>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/users">Users</a></li>
+            <li><a href="/books">Books</a></li>
+            <li><a href="/notifications">Notifications</a></li>
+            <li><a href="/resources">Resources</a></li>
+        </ul>
+        <p>There is also an API Rest, you can see the status at: <a href="/api/status">/api/status</a></p>
+        <h3>About</h3>
+        <p>This application is built using Node.js and Express. It serves as a template for creating web applications with multiple routes and views.</p>
+        <h3>Contact</h3>
+        <p>If you have any questions or feedback, feel free to reach out!</p>
+    </main>
+    <%- include('./footer.ejs') %>
+</body>
+</html>

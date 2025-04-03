@@ -14,14 +14,6 @@ app.set('views', './views'); //carpeta on desem els arxius .ejs
 app.use('/api', routerApi);
 app.use('/', routerViews);
 
-// Endpoint to make sure the server is running
-app.get("/api/status", (request, response) => {
-    const status = {
-        "Status" : "Running",
-        "Avalible EndPoints" : ["/users", "/resources", "/books", "/notifications"] 
-    };
-    response.status(200).json(status);
-})
 
 app.listen(PORT, () => {
     console.log("Server Listening on PORT:", PORT);

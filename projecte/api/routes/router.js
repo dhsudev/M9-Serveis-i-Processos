@@ -11,7 +11,19 @@ routerApi.use('/users', userRoutes);
 routerApi.use('/books', booksRoutes);
 routerApi.use('/notifications', notificationsRoutes);
 routerApi.use('/resources', resourcesRoutes);
+// Endpoint to make sure the server is running
+routerApi.get("/status", (request, response) => {
+    const status = {
+        "Status" : "Running",
+        "Avalible EndPoints" : ["/users", "/resources", "/books", "/notifications"] 
+    };
+    response.status(200).json(status);
+})
 
+// Views routes
+routerViews.get('/', (req, res) => {
+    res.render('index', { title: 'Home' });
+})
 routerViews.use('/users', userRoutesViews);
 routerViews.use('/books', booksRoutesViews);
 routerViews.use('/notifications', notificationsRoutesViews);
