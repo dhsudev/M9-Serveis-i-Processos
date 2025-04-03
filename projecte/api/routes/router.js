@@ -1,14 +1,21 @@
 import express from 'express'
-import userRoutes from './users.js'
-import booksRoutes from './books.js'
-import notificationsRoutes from './notifications.js'
-import resourcesRoutes from './resources.js'
+import {router as userRoutes, routerView as userRoutesViews} from './users.js'
+import {router as booksRoutes, routerView as booksRoutesViews}from './books.js'
+import {router as notificationsRoutes, routerView as notificationsRoutesViews} from './notifications.js'
+import {router as resourcesRoutes, routerView as resourcesRoutesViews} from './resources.js'
 
-const router = express.Router();
+const routerApi = express.Router();
+const routerViews = express.Router();
 
-router.use('/users', userRoutes);
-router.use('/books', booksRoutes);
-router.use('/notifications', notificationsRoutes);
-router.use('/resources', resourcesRoutes);
+routerApi.use('/users', userRoutes);
+routerApi.use('/books', booksRoutes);
+routerApi.use('/notifications', notificationsRoutes);
+routerApi.use('/resources', resourcesRoutes);
 
-export default router;
+routerViews.use('/users', userRoutesViews);
+routerViews.use('/books', booksRoutesViews);
+routerViews.use('/notifications', notificationsRoutesViews);
+routerViews.use('/resources', resourcesRoutesViews);
+
+
+export {routerApi, routerViews};
