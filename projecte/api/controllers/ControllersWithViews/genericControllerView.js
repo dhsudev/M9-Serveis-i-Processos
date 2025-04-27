@@ -8,6 +8,7 @@ class GenericControllerView{
 	dbFile = '';
 	entityName = '';
 	propstext = 'props';
+	baseURL = process.env.BASE_URL || 'http://localhost:3010';
 
 	constructor(entityName, hasQueryParams = false) {
 		this.dbFile = `db/${entityName}s.json`;
@@ -26,13 +27,10 @@ class GenericControllerView{
 			const data = await readData(this.dbFile);
 
 			const filteredData = this.handleQueryParams(query, data);
-			res.render('list', { entityName : this.entityName, data: filteredData });
+			res.render('list', { entityName : this.entityName, data: filteredData, baseURL: this.baseURL});
 		} catch (error) {
 			console.log(error)
-			res.status(500).json({
-				message: `Something went wrong retrieving the ${this.entityName}s`,
-				error: error
-			});
+			this.errorPage(req, res, 500, `Something went wrong retrieving the ${this.entityName}s`);
 		}
 	}
 
@@ -41,20 +39,18 @@ class GenericControllerView{
 			const id = req.params.id;
 			const data = await readData(this.dbFile);
 
-			const item = data.find((userObj) => this.checkId(userObj, id));
+			const item = Object.entries(data).find(([key]) => key === id);
+			const itemBody = item ? item[1] : null;
+			//console.log(itemBody);
 			if (!item) {
-				return res.status(404).json({ message: `${this.entityName} not found` });
+				const message = `${this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1)} not found`;
+				this.errorPage(req, res, 404, message);
+				return;
 			}
-			res.status(200).json({
-				message: `${this.entityName} retrieved successfully`,
-				[this.entityName] : item
-			});
+			res.render('detail', { entityName : this.entityName, data: itemBody, baseURL: this.baseURL});
 		} catch (error) {
 			console.log(error)
-			res.status(500).json({
-				message: `Something went wrong retrieving the ${this.entityName}`,
-				error: error
-			});
+			this.errorPage(req, res, 500, `Something went wrong retrieving the ${this.entityName}`);
 		}
 	}
 
@@ -139,9 +135,10 @@ class GenericControllerView{
 
 			const data = await readData(this.dbFile);
 
-			const index = data.findIndex(userObj => this.checkId(userObj, id));
+			const index = Array.isArray(data) ? data.findIndex(userObj => this.checkId(userObj, id)) : -1;
 			if (index === -1) {
-				return res.status(404).json({ message: `Could not found a ${this.entityName} with ${id}` });
+				return this.errorPage(req, res, 404, `Could not found the ${this.entityName}`);
+				//return res.status(404).json({ message: `Could not found a ${this.entityName} with ${id}` });
 			}
 
 			data.splice(index, 1);
@@ -149,9 +146,20 @@ class GenericControllerView{
 
 			res.status(200).json({ message: `${this.entityName} with id ${id} deleted successfully` });
 		} catch (error) {
-			res.status(500).json({ message: 'Something went wrong', error: error.message });
+			console.log(error)
+			this.errorPage(req, res, 500, `Something went wrong deleting the ${this.entityName}`);
 		}
 	}
+
+	async errorPage(req, res, code, message){
+		res.render('error', { 
+			entityName : this.entityName, 
+			errorCode : code, 
+			errorMessage : message, 
+			baseUrl: req.baseUrl
+		});
+	}
+
 
 	// This method is used to filter the data based on the query parameters
 	// It checks if the class is marked to hanlded query parameters and if not it returns the data as is
