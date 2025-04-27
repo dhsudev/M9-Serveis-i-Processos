@@ -6,5 +6,31 @@
             "capacity"
         ],
         "date": "2025-02-06T08:30:31.997Z"
+    },
+    "1": {
+        "name": "Room 23",
+        "status": "active",
+        "properties": [
+            "23 people capacity"
+        ],
+        "date": "2025-03-10T10:15:00.000Z"
+    },
+    "2": {
+        "name": "Car01",
+        "status": "inactive",
+        "properties": [
+            "2 places",
+            "red"
+        ],
+        "date": "2025-04-20T14:45:00.000Z"
+    },
+    "3": {
+        "name": "Car02",
+        "status": "pending",
+        "properties": [
+            "5 places",
+            "gray"
+        ],
+        "date": "2025-05-15T09:00:00.000Z"
     }
 }

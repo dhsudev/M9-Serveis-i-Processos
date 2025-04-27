@@ -2,31 +2,86 @@
 <head>
     <title>List Page</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <%- include('./header.ejs') %>
     <main>
-        <table border="1">
-            <thead>
-                <tr>
-                    <% Object.keys(data[0]).forEach(function(property) { %>
-                        <th><%= property %></th>
-                    <% }) %>
-                </tr>
-            </thead>
-            <tbody>
-                <% Object.entries(data).forEach(function([id, user]) { %>
+        <section>
+            <h2><%=entityName.charAt(0).toUpperCase() + entityName.slice(1)%>s list</h2>
+            <button id="add-button" onclick="newItem()">
+                New <%=entityName.charAt(0).toUpperCase() + entityName.slice(1)%>
+            </button>
+            <table border="1">
+                <thead>
                     <tr>
-                        <% Object.values(user).forEach(function(value) { %>
-                            <td><%= value %></td>
+                        <th>Actions</th>
+                        <% Object.keys(data[0]).forEach(function(property) { %>
+                            <% if (property !== 'date') { %>
+                                <th><%= property.charAt(0).toUpperCase() + property.slice(1) %></th>
+                            <% } %>
                         <% }) %>
-                        <td><a href="/<%=entityName%>s/<%= id %>">Link</a></td>
                     </tr>
-                <% }) %>
-                
-            </tbody>
-        </table>
-    </main>
+                </thead>
+                <tbody>
+                    <% Object.entries(data).forEach(function([id, obj]) { %>
+                        <tr>
+                            <td>
+                                <button  id="view-button" class="icon-button"
+                                        onclick="window.location.href='<%= entityName %>s/<%= id %>'">
+                                        👁
+                                </button>
+                                <button  id="edit-button" class="icon-button"
+                                        onclick="editItem('<%= id %>')">
+                                        ✏️
+                                </button>
+                                <button  id="delete-button" class="icon-button"
+                                        onclick="deleteItem('<%= id %>')">🗑️
+                                </button>
+                            </td>
+                            <% Object.entries(obj).forEach(function([key, value]) { %>
+                                <% if (key === 'date') { return; } %>
+                                <% if (key.endsWith('Id')) { %>
+                                    <td><a href="<%= baseURL %>/<%= key.substring(0, key.length - 2) %>s/<%= value %>"><%= value %></a></td>
+                                <% } else { %>
+                                    <td><%= value %></td>
+                                <% } %>
+                            <% }) %>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </section>
+
+    <script>
+        function deleteItem(id) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                console.log('Deleting item with ID:', id);
+                console.log('Sending DELETE request to:', `/${'<%= entityName %>'}s/${id}`);
+                fetch(`${'<%= baseURL %>'}/api/${'<%= entityName %>'}s/${id}`, { method: 'DELETE' })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log('Item deleted successfully');
+                            alert('<%= entityName%> deleted successfully');
+                            window.location.reload();
+                        } else {
+                            console.error('Error deleting item:', response.statusText);
+                            alert('Error deleting <%= entityName%>: ' + response.statusText);
+                        }
+                    });
+            }
+        }
+        function newItem() {
+            console.log('Creating new item');
+            alert('This feature is not implemented yet.');
+            // window.location.href = '/<%= entityName %>s/new';
+        }
+        function editItem(id) {
+            console.log('Editing item with ID:', id);
+            alert('This feature is not implemented yet.');
+            // window.location.href = '/<%= entityName %>s/edit/' + id;
+        }
+    </script>
     </main>
     <%- include('./footer.ejs') %>
 </body>

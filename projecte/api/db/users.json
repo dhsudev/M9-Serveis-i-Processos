@@ -1,8 +1,1 @@
-{
-    "0": {
-            "name": "exampleUser",
-            "email": "testUser@example.com",
-            "password": "superstrongpassword",
-            "role": "client"
-        }
-}
+{"0":{"name":"exampleUser","email":"testUser@example.com","password":"superstrongpassword","role":"client"},"1":{"name":"johnDoe","email":"john.doe@example.com","password":"password123","role":"admin"},"2":{"name":"janeSmith","email":"jane.smith@example.com","password":"securepass456","role":"client"},"3":{"name":"michaelBrown","email":"michael.brown@example.com","password":"mikepass789","role":"client"},"4":{"name":"emilyDavis","email":"emily.davis@example.com","password":"emilypass321","role":"admin"},"5":{"name":"williamJones","email":"william.jones@example.com","password":"willpass654","role":"client"},"6":{"name":"oliviaGarcia","email":"olivia.garcia@example.com","password":"oliviapass987","role":"client"},"7":{"name":"jamesMartinez","email":"james.martinez@example.com","password":"jamespass123","role":"client"},"9":{"name":"liamLopez","email":"liam.lopez@example.com","password":"liampass789","role":"client"}}

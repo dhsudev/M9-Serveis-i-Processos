@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Detail Page</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <%- include('./header.ejs') %>
+        <main>
+            <section>
+                <h2><%= entityName.charAt(0).toUpperCase() + entityName.slice(1) %> detail</h2>
+                <div class="detail-container">
+                    <% Object.keys(data).forEach(key => { %>
+                        <% if (key.endsWith('Id')) { %>
+                            <p>
+                                <b><%= key.charAt(0).toUpperCase() + key.substring(1, key.length - 2) %>:</b>
+                                <a href="<%= baseURL %>/<%= key.substring(0, key.length - 2) %>s/<%= data[key] %>">👁 View Details</a>
+                            </p>
+                        <% } else { %>
+                            <p>
+                                <b><%= key.charAt(0).toUpperCase() + key.slice(1) %>:</b>
+                                <%= data[key] %>
+                            </p>
+                        <% } %>
+                    <% }); %>
+                </div>
+            </section>
+        </main>
+    <%- include('./footer.ejs') %>
+</body>
+
+</html>

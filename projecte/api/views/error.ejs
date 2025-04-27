@@ -1,0 +1,18 @@
+<html>
+<head>
+    <title>Error <%= errorCode %></title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <%- include('./header.ejs') %>
+    <main>
+        <section>
+            <h2>Error <%= errorCode %></h2>
+            <p><%= errorMessage %></p>
+            <img src="https://http.cat/<%=errorCode%>" alt="error-<%=errorCode%>-gif">
+        </section>
+    </main>
+    <%- include('./footer.ejs') %>
+</body>
+</html>
