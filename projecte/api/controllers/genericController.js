@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import logServices from "../services/logServices.js";
 import fs from "fs";
 import path from "path";
+const baseURL = process.env.BASE_URL || 'http://localhost:3010';
 
 class GenericController {
 	dbFile = '';
@@ -45,13 +46,14 @@ class GenericController {
 			const id = req.params.id;
 			const data = await readData(this.dbFile);
 
-			const item = data.find((userObj) => this.checkId(userObj, id));
+			const item = Object.entries(data).find(([key, value]) => key === id);
+			const itemBody = item ? { [item[0]]: item[1] } : null;
 			if (!item) {
-				return res.status(404).json({ message: `${this.entityName} not found` });
+				return res.status(404).json({ message: `${this.entityName} not found`});
 			}
 			res.status(200).json({
 				message: `${this.entityName} retrieved successfully`,
-				[this.entityName] : item
+				[this.entityName] : itemBody
 			});
 		} catch (error) {
 			console.log(error)
@@ -143,16 +145,19 @@ class GenericController {
 
 			const data = await readData(this.dbFile);
 
-			const index = data.findIndex(userObj => this.checkId(userObj, id));
+			const index = Object.keys(data).findIndex(key => key == id);
 			if (index === -1) {
 				return res.status(404).json({ message: `Could not found a ${this.entityName} with ${id}` });
 			}
 
-			data.splice(index, 1);
-			writeData(this.dbFile, data);
+			const dataArray = Object.entries(data);
+			dataArray.splice(index, 1);
+			const updatedData = Object.fromEntries(dataArray);
+			writeData(this.dbFile, updatedData);
 
 			res.status(200).json({ message: `${this.entityName} with id ${id} deleted successfully` });
 		} catch (error) {
+			console.log(error)
 			res.status(500).json({ message: 'Something went wrong', error: error.message });
 		}
 	}
