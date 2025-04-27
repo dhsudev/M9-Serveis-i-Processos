@@ -29,5 +29,60 @@ routerViews.use('/books', booksRoutesViews);
 routerViews.use('/notifications', notificationsRoutesViews);
 routerViews.use('/resources', resourcesRoutesViews);
 
+routerViews.get('/templates', (request, response) => {
+    const status = {
+        templates: [
+            {
+                entity: "users",
+                fields: [
+                    { name: "id", type: "integer" },
+                    { name: "name", type: "string" },
+                    { name: "email", type: "string" },
+                    { name: "role", type: "string" }
+                ],
+                relationships: [
+                    { relatedEntity: "notifications", type: "one-to-many" }
+                ]
+            },
+            {
+                entity: "books",
+                fields: [
+                    { name: "id", type: "integer" },
+                    { name: "title", type: "string" },
+                    { name: "author", type: "string" },
+                    { name: "genre", type: "string" }
+                ],
+                relationships: [
+                    { relatedEntity: "resources", type: "many-to-one" }
+                ]
+            },
+            {
+                entity: "notifications",
+                fields: [
+                    { name: "id", type: "integer" },
+                    { name: "message", type: "string" },
+                    { name: "type", type: "string" },
+                    { name: "date", type: "date" }
+                ],
+                relationships: [
+                    { relatedEntity: "users", type: "many-to-one" }
+                ]
+            },
+            {
+                entity: "resources",
+                fields: [
+                    { name: "id", type: "integer" },
+                    { name: "name", type: "string" },
+                    { name: "type", type: "string" },
+                    { name: "url", type: "string" }
+                ],
+                relationships: [
+                    { relatedEntity: "books", type: "one-to-many" }
+                ]
+            }
+        ]
+    };
+    response.status(200).json(status);
+});
 
 export {routerApi, routerViews};
