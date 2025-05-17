@@ -28,26 +28,28 @@ router.delete('/:id', (req, res) => {
   bookController.delete(req, res);
 });
 
-// View with ejs
+// View with EJS
 routerView.get('/', (req, res) => {
-  bookControllerView.getAll(req, res);
+    bookControllerView.getAll(req, res);
 });
 
+// Colocar rutas fijas antes de las dinámicas:
+routerView.get('/add', (req, res) => {
+    bookControllerView.add(req, res);
+});
+routerView.get('/edit/:id', (req, res) => {
+    bookControllerView.edit(req, res);
+});
+
+// Rutas dinámicas deben ir después:
 routerView.get('/:id', (req, res) => {
-  bookControllerView.getOne(req, res);
+    bookControllerView.getOne(req, res);
 });
-
-routerView.post('/', (req, res) => {
-  bookControllerView.add(req, res);
+routerView.post('/update/:id', (req, res) => {
+    bookControllerView.update(req, res);
 });
-
-routerView.put('/:id', (req, res) => {
-  bookControllerView.update(req, res);
-});
-
 routerView.delete('/:id', (req, res) => {
-  bookControllerView.delete(req, res);
+    bookControllerView.delete(req, res);
 });
-
 
 export {router, routerView};

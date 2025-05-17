@@ -56,78 +56,58 @@ class GenericControllerView{
 
 	async add(req, res) {
 		try {
-			// Creates new object
-			const id = uuidv4();
-			const newItem = { 
-				[id]: { 
-					...req.body,
-					date: new Date()
-				}
-			};
-			// Validate data
-			newItem[id] = this.parseData(newItem[id]);
-			if(!newItem[id]) { // Invalid data
-				return res.status(400).json({
-					message: `Invalid ${this.entityName} data. ${this.propstext} are required.`
-				});
-			}
-			// Get data from file and update it
-			const data = await readData(this.dbFile);
-			data.push(newItem);
-			writeData(this.dbFile, data);
-			
-			// Response
-			res.status(201).json({
-				message: `${this.entityName} added successfully`,
-				[this.entityName]: newItem
-			});
+		  // Leer la estructura de la base de datos para pasarla al formulario.
+		  const structureData = await readData('db/structure.json');
+		  // Suponiendo que en structure.json las tablas están definidas en plural
+		  const structure = structureData.tables[`${this.entityName}s`];
+		  
+		  // Renderizar el formulario para crear un registro nuevo
+		  res.render('form', {
+			entity: `${this.entityName}s`,
+			record: null, // No se pasa ningún registro en este caso
+			structure,
+			baseURL: this.baseURL
+		  });
 		} catch (error) {
-			console.log(error)
-			res.status(500).json({
-				message: `Failed to add ${this.entityName}`,
-				error: error.message
-			});
+		  console.log(error);
+		  this.errorPage(req, res, 500, `Algo salió mal cargando el formulario para agregar un nuevo ${this.entityName}`);
 		}
-	}
+	  }
 
-	async update(req, res) {
+	async edit(req, res) {
 		try {
-			const id = req.params.id;
-			// Read data from file and search for the obj
-			const data = await readData(this.dbFile);
-			const index = data.findIndex(obj => Object.keys(obj)[0] === id);
-			if (index === -1) {
-				return res.status(404).json({ error: 'No encontrado' });
-			}
-			// Update each attribute in the existing item with the values from req.body
-			const updatedItem = { ...data[index] };
-			Object.keys(req.body).forEach(key => {
-				updatedItem[id][key] = req.body[key];
-			});
-			updatedItem[id].date = new Date();
-
-			// Parse the updated data
-			updatedItem[id] = this.parseData(updatedItem[id]);
-			if (!updatedItem[id]) {
-				return res.status(400).json({
-					message: `Invalid ${this.entityName} data. ${this.propstext} are required.`
-				});
-			}
-			// Update the obj with the new data and write it to the file
-			data[index] = updatedItem;
-			writeData(this.dbFile, data);
-			res.status(200).json({
-				message: `${this.entityName} with id ${id} updated successfully`,
-				[this.entityName]: updatedItem
-			});
+		  const id = req.params.id;
+		  // Leer todos los datos de la entidad
+		  const data = await readData(this.dbFile);
+		  // Buscar el registro cuyo id coincida
+		  const recordEntry = Object.entries(data).find(([key]) => key === id);
+		  if (!recordEntry) {
+			return this.errorPage(req, res, 404, `${this.entityName} no encontrado`);
+		  }
+		  const record = recordEntry[1];
+	  
+		  // Leer la estructura de la base de datos para pasarla al formulario.
+		  const structureData = await readData('db/structure.json');
+		  // Suponiendo que en structure.json las tablas están definidas con claves en plural,
+		  // se pasa la estructura correspondiente a la entidad.
+		  const structure = structureData.tables[`${this.entityName}s`];
+		  
+		  // Renderizar el formulario y pasar como variables:
+		  // - entity (por ejemplo, "books" o "users")
+		  // - record: el objeto con los datos para edición
+		  // - structure: la estructura de la entidad para generar los campos dinámicamente
+		  // - baseURL: para las rutas base
+		  res.render('form', { 
+			entity: `${this.entityName}s`,
+			record, 
+			structure, 
+			baseURL: this.baseURL 
+		  });
 		} catch (error) {
-			console.log(error)
-			res.status(500).json({
-				message: `Failed to update ${this.entityName}`,
-				error: error.message
-			});
+		  console.log(error);
+		  this.errorPage(req, res, 500, `Algo salió mal cargando el formulario de edición de ${this.entityName}`);
 		}
-	}
+	  }
 
 	async delete(req, res) {
 		try {

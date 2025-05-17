@@ -29,23 +29,26 @@ router.delete('/:id', (req, res) => {
 });
 
 
-// View with ejs
+// View with EJS
 routerView.get('/', (req, res) => {
     userControllerView.getAll(req, res);
 });
 
+// Colocar rutas fijas antes de las dinámicas:
+routerView.get('/add', (req, res) => {
+    userControllerView.add(req, res);
+});
+routerView.get('/edit/:id', (req, res) => {
+    userControllerView.edit(req, res);
+});
+
+// Rutas dinámicas deben ir después:
 routerView.get('/:id', (req, res) => {
     userControllerView.getOne(req, res);
 });
-
-routerView.post('/', (req, res) => {
-    userControllerView.add(req, res);
-});
-
-routerView.put('/:id', (req, res) => {
+routerView.post('/update/:id', (req, res) => {
     userControllerView.update(req, res);
 });
-
 routerView.delete('/:id', (req, res) => {
     userControllerView.delete(req, res);
 });

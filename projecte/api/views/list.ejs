@@ -73,13 +73,13 @@
         }
         function newItem() {
             console.log('Creating new item');
-            alert('This feature is not implemented yet.');
-            // window.location.href = '/<%= entityName %>s/new';
+            //alert('This feature is not implemented yet.');
+            window.location.href = `${'<%= baseURL %>'}/${'<%= entityName %>'}s/add`;
         }
         function editItem(id) {
             console.log('Editing item with ID:', id);
-            alert('This feature is not implemented yet.');
-            // window.location.href = '/<%= entityName %>s/edit/' + id;
+            ///alert('This feature is not implemented yet.');
+            window.location.href = `${'<%= baseURL %>'}/${'<%= entityName %>'}s/edit/` + id;
         }
     </script>
     </main>

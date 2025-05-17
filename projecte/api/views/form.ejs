@@ -1,0 +1,61 @@
+<html>
+<head>
+    <title><%= record ? 'Edit ' : 'New ' %><%= entity.charAt(0).toUpperCase() + entity.slice(1) %></title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <%- include('./header.ejs') %>
+    <section>
+        <h1>
+            <%= record ? 'Edit ' : 'New ' %><%= entity.charAt(0).toUpperCase() + entity.slice(1) %>
+        </h1>
+        <form method="POST" action="/<%= entity %>/<%= record ? 'update' : 'create' %>">
+            <% 
+                // Usar la estructura ya correspondiente a la entidad
+                const tableStructure = structure;
+                const columns = tableStructure.columns;
+                const primaryKey = tableStructure.primaryKey;
+                // Recorremos los campos de la estructura
+                for (let field in columns) { 
+                    // Saltar la propiedad primaryKey y campos autogenerados en creación
+                    if (!record && (field === primaryKey || field === "date")) { 
+                        continue; 
+                    }
+                    const col = columns[field];
+                    let inputType = "text";
+                    if (typeof col === 'string') {
+                        if (col.toLowerCase() === "datetime") {
+                            inputType = "datetime-local";
+                        }
+                    } else if (typeof col === 'object' && col.type === "dropdown") {
+                        inputType = "dropdown";
+                    }
+            %>
+            <div>
+                <label for="<%= field %>">
+                    <%= field.charAt(0).toUpperCase() + field.slice(1) %>:
+                </label>
+                <% if (inputType === "dropdown") { %>
+                    <select id="<%= field %>" name="<%= field %>">
+                        <% col.options.forEach(option => { %>
+                            <option value="<%= option %>" <%= record && record[field] === option ? 'selected' : '' %>>
+                                <%= option %>
+                            </option>
+                        <% }); %>
+                    </select>
+                <% } else { %>
+                    <input type="<%= inputType %>" id="<%= field %>" name="<%= field %>"
+                        value="<%= record && record[field] ? record[field] : '' %>"
+                        placeholder="<%= field %>">
+                <% } %>
+            </div>
+            <% } %>
+            <button type="submit">
+                <%= record ? 'Actualizar' : 'Crear' %>
+            </button>
+        </form>
+    </section>
+    <%- include('./footer.ejs') %>
+</body>
+</html>

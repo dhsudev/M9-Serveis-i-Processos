@@ -1,0 +1,54 @@
+{
+    "tables": {
+        "users": {
+            "columns": {
+                "id": "string",
+                "name": "string",
+                "email": "string",
+                "password": "string",
+                "role": {
+                    "type": "dropdown",
+                     "options": ["", "client", "admin"]
+                }
+            },
+            "primaryKey": "id"
+        },
+        "notifications": {
+            "columns": {
+                "id": "string",
+                "userId": "string",
+                "message": "string",
+                "sendDate": "datetime",
+                "date": "datetime"
+            },
+            "primaryKey": "id",
+            "foreignKeys": {
+                "userId": "users.id"
+            }
+        },
+        "resources": {
+            "columns": {
+                "id": "string",
+                "name": "string",
+                "status": "string",
+                "properties": "array",
+                "date": "datetime"
+            },
+            "primaryKey": "id"
+        },
+        "books": {
+            "columns": {
+                "id": "string",
+                "day": "datetime",
+                "userId": "string",
+                "resourceId": "string",
+                "date": "datetime"
+            },
+            "primaryKey": "id",
+            "foreignKeys": {
+                "userId": "users.id",
+                "resourceId": "resources.id"
+            }
+        }
+    }
+}
